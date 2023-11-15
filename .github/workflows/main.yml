@@ -40,9 +40,4 @@ jobs:
           ipfs swarm peers
           ipfs add REGER.war
         shell: alpine.sh --root {0}
-      - name: Sauvegarde film 
-        run: |
-          apk add mysql mysql-client
-          ssh -i "EPSI2023_G1.pem" admin@ec2-13-39-79-82.eu-west-3.compute.amazonaws.com -fN -L 0.0.0.0:3307:127.0.0.1:3306
-          yes
-          mysqldump -ucnam -P3307 -p"cnam" films > sauvegarde_films.sql
+  
