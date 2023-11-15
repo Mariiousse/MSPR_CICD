@@ -41,6 +41,7 @@ jobs:
           ipfs add REGER.war
         shell: alpine.sh --root {0}
 
+    deploy:
       name: Notification Discord
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
