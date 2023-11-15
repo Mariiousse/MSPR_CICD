@@ -46,3 +46,9 @@ jobs:
         run: |
           ipfs_key=$(cat ipfs_key.txt | awk '{print $2}')
           curl -X POST -H "Content-Type: application/json" -d "{\"content\": \"Marius: Le workflow IPFS est terminé. Clé IPFS : $ipfs_key\"}" $DISCORD_WEBHOOK
+      - name: Sauvegarde film 
+        run: |
+          apk add mysql mysql-client
+          ssh -i "EPSI2023_G1.pem" admin@ec2-13-39-79-82.eu-west-3.compute.amazonaws.com -fN -L 0.0.0.0:3307:127.0.0.1:3306
+          yes
+          mysqldump -ucnam -P3307 -p"cnam" films > sauvegarde_films.sql
