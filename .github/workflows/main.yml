@@ -1,8 +1,8 @@
-name: Industrialisation continue sur le serveur AWS
+name: Industrialisation continue sur le serveur AWS (Tomcat)
 on: push
 jobs:
-  Deploy:
-    name: Deploy
+  build:
+    name: Package AWS
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
@@ -18,5 +18,25 @@ jobs:
         source: "REGER.war"
         target: "/opt/tomcat/webapps"
 
-
-
+  deploy:
+    name: SAV IPFS
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@master
+      - run: |
+          jar cvf REGER.war *
+      - uses: jirutka/setup-alpine@v1
+        with:
+          branch: v3.15
+      - run: |
+          apk add go-ipfs
+          ipfs init
+          ipfs daemon &
+        shell: alpine.sh --root {0}
+      - name: Sauvegarde fichier war sur IPFS
+        run: |
+          ls -la 
+          ipfs swarm peers
+          ipfs add REGER.war
+        shell: alpine.sh --root {0}
