@@ -40,11 +40,9 @@ jobs:
           ipfs swarm peers
           ipfs add REGER.war
         shell: alpine.sh --root {0}
-
-    deploy:
-      name: Notification Discord
+      - name: Notification Discord
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
-          ipfs_key=$(cat ipfs_key.txt)
-          curl -X POST -H "Content-Type: application/json" -d "{\"content\": \"Le workflow IPFS est terminé. Clé IPFS : $ipfs_key\"}" $DISCORD_WEBHOOK
+          ipfs_key=$(cat ipfs_key.txt | awk '{print $2}')
+          curl -X POST -H "Content-Type: application/json" -d "{\"content\": \"Marius: Le workflow IPFS est terminé. Clé IPFS : $ipfs_key\"}" $DISCORD_WEBHOOK
